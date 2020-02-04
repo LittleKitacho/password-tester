@@ -1,0 +1,8 @@
+# password-tester
+A program for testing the strength of passwords.
+
+## Usage
+To use you can either directly run the program, give it a password, and it will return the strength
+as determined by my algorithm.  
+Otherwise, you can import the file `stress_test` as a package and use it's `test` function
+if you would like to use it that way.
