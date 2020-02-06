@@ -1,4 +1,4 @@
-import datetime
+from math import floor
 
 cpass = open('cpass.txt',"r").readlines()
 wrd_dict = open('dict.txt',"r").readlines()
@@ -6,8 +6,11 @@ wrd_dict = open('dict.txt',"r").readlines()
 chars = "abcdefghijklmnopqrstuvwxyz"
 capt = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
+num = "1234567890"
+sym = "`~!@#$%^&*()-_=+[{]}\\|;:'\",<.>/?"
+
 kbd = ["`1234567890-=","qwertyuiop[]\\","asdfghjkl;'","zxcvbnm,./"," "]
-sft = ["~!@#$%^&*()_+","QWERTYUIOP{}|","ASDFGHJKL:\"","ZXCVBNM<>?"," "]
+sft = ["~!@#$%^&*()_+","QWERTYUIOP{}|",'ASDFGHJKL:"',"ZXCVBNM<>?"," "]
 
 def test(password: str) -> int:
 
@@ -22,66 +25,72 @@ def test(password: str) -> int:
             return 0
 
     # Password's strength is defined
-    strength = len(password)
+    strength = len(password) * 2
+    x = 0
+    y = 0
+
+    for i in password:
+        if i in num:
+            x += 1
+        elif i in sym:
+            y += 1
+
+    if x >= floor(len(password) / 4):
+        strength += len(password)
+    
+    if y >= floor(len(password) / 4):
+        strength += len(password)
+
     x = 0
 
     while x < len(password) - 1:
         if password[x] == password[x + 1]:
-            strength -= 1
+            strength -= 2
 
         x += 1
 
     x = 0
 
-    while x < len(password):
+    while x < len(password) - 1:
 
-        is_sft = None
-        kbd_index = None
-        row_index = None
+        captial = None
 
-        for row in kbd:
-            for char in row:
-                if char == password[x]:
-                    kbd_index = kbd.index(row)
-                    row_index = row.index(password[x])
-                    is_sft = False
+        if password[x] in chars:
 
-        if is_sft == None:
-            for row in sft:
-                for char in row:
-                    if char == password[x]:
-                        kbd_index = sft.index(row)
-                        row_index = row.index(password[x])
-                        is_sft = True
-
-        if is_sft:
-
-            if password[x] == sft[kbd_index + 1][row_index]:
-                strength -= 1
-
-            elif password[x] == sft[kbd_index - 1][row_index]:
-                strength -= 1
-
-            elif password[x] == sft[kbd_index][row_index + 1]:
-                strength -= 1
-
-            elif password[x] == sft[kbd_index][row_index - 1]:
-                strength -= 1
-
-        else:
-
-            if password[x] == kbd[kbd_index + 1][row_index]:
-                strength -= 1
-
-            elif password[x] == kbd[kbd_index - 1][row_index]:
-                strength -= 1
-
-            elif password[x] == kbd[kbd_index][row_index + 1]:
-                strength -= 1
-
-            elif password[x] == kbd[kbd_index][row_index - 1]:
-                strength -= 1
+            char = chars.index(password[x])
+            capital = False
         
+        elif password[x] in capt:
+
+            char = chars.index(password[x])
+            capital = True
+
+        if captial:
+            
+            if char < len(capt) - 1:
+
+                if password[x + 1] == capt[char + 1]:
+                    strength -= 1
+
+                elif password[x + 1] == capt[char + 1]:
+                    strength -= 1
+
+                elif password[x + 1] == chars[char]:
+                    strength -= 1
+
+        elif not capital:
+
+            if char < len(capt) - 1:
+
+                if password[x + 1] == chars[char + 1]:
+                    strength -= 1
+
+                elif password[x + 1] == chars[char + 1]:
+                    strength -= 1
+
+                elif password[x + 1] == capt[char]:
+                    strength -= 1
+
         x += 1
 
     return strength
