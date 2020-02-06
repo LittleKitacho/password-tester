@@ -1,4 +1,4 @@
 .theia
 __pycache__
-*.pyc
-output.txt
+.pyc
+.vscode
