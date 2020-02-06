@@ -10,14 +10,18 @@ kbd = ["`1234567890-=","qwertyuiop[]\\","asdfghjkl;'","zxcvbnm,./"," "]
 sft = ["~!@#$%^&*()_+","QWERTYUIOP{}|","ASDFGHJKL:\"","ZXCVBNM<>?"," "]
 
 def test(password: str) -> int:
+
+    # Check if password is a common password
     for i in cpass:
         if password == i.strip():
             return 0
-    
+
+    # Check if password is a single word in the dictionary
     for i in wrd_dict:
         if password == i.strip():
             return 0
 
+    # Password's strength is defined
     strength = len(password)
     x = 0
 
@@ -31,21 +35,54 @@ def test(password: str) -> int:
 
     while x < len(password):
 
-        sft = None
+        is_sft = None
         kbd_index = None
         row_index = None
 
         for row in kbd:
             for char in row:
-                if l == password[x]:
-                    kbd_index = kbd.index(i)
-                    row_index = l.index(password[x])
-                    sft = False
+                if char == password[x]:
+                    kbd_index = kbd.index(row)
+                    row_index = row.index(password[x])
+                    is_sft = False
 
-        if kbd_index == None:
-            for i in sft:
-                for l in i:
-                    if l == password[x]
+        if is_sft == None:
+            for row in sft:
+                for char in row:
+                    if char == password[x]:
+                        kbd_index = sft.index(row)
+                        row_index = row.index(password[x])
+                        is_sft = True
+
+        if is_sft:
+
+            if password[x] == sft[kbd_index + 1][row_index]:
+                strength -= 1
+
+            elif password[x] == sft[kbd_index - 1][row_index]:
+                strength -= 1
+
+            elif password[x] == sft[kbd_index][row_index + 1]:
+                strength -= 1
+
+            elif password[x] == sft[kbd_index][row_index - 1]:
+                strength -= 1
+
+        else:
+
+            if password[x] == kbd[kbd_index + 1][row_index]:
+                strength -= 1
+
+            elif password[x] == kbd[kbd_index - 1][row_index]:
+                strength -= 1
+
+            elif password[x] == kbd[kbd_index][row_index + 1]:
+                strength -= 1
+
+            elif password[x] == kbd[kbd_index][row_index - 1]:
+                strength -= 1
+        
+        x += 1
 
     return strength
 
