@@ -53,7 +53,7 @@ def test(password: str) -> int:
 
     while x < len(password) - 1:
 
-        captial = None
+        capital = None
 
         if password[x] in chars:
 
@@ -65,7 +65,7 @@ def test(password: str) -> int:
             char = chars.index(password[x])
             capital = True
 
-        if captial:
+        if capital:
             
             if char < len(capt) - 1:
 
