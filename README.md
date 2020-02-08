@@ -1,4 +1,4 @@
-# password-tester
+# password-tester (Release v1.0.0)
 A program for testing the strength of passwords.
 
 Licensed under the `LGPL-3.0-only` license.
