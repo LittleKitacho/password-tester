@@ -1,6 +1,8 @@
 # password-tester
 A program for testing the strength of passwords.
 
+Licensed under the `LGPL-3.0-only` license.
+
 ## Usage
 To use you can either directly run the program, give it a password, and it will return the strength
 as determined by my algorithm.  
